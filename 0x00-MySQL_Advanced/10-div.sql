@@ -1,4 +1,4 @@
--- a function in mysql
+-- afunction in mysql
 DELIMITER $$ ;
 CREATE FUNCTION IF NOT EXISTS SafeDiv(
 	a INT,
