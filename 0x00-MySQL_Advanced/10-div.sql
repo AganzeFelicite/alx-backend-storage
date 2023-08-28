@@ -1,5 +1,5 @@
 -- afunction in mysql
-DELIMITER $$ ;
+DELIMITER $$
 CREATE FUNCTION IF NOT EXISTS SafeDiv(
 	a INT,
 	b INT
@@ -11,4 +11,4 @@ BEGIN
 	ELSE
 		RETURN (a / b);
 	END IF;
-END;$$
+END $$
