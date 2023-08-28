@@ -1,6 +1,6 @@
 -- Email validation to sent not sent
 DELIMITER $$ ;
-CREATE TRIGGER resets_valid_email AFTER UPDATE ON users 
+CREATE TRIGGER resets_valid_email BEFORE UPDATE ON users 
 FOR EACH ROW
 BEGIN
 	IF NEW.email != OLD.email THEN
