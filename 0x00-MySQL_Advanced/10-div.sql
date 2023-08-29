@@ -1,4 +1,4 @@
--- afunction in mysql
+-- script to devide in a function
 DELIMITER $$
 
 CREATE FUNCTION IF NOT EXISTS SafeDiv(
@@ -7,10 +7,10 @@ CREATE FUNCTION IF NOT EXISTS SafeDiv(
 )
 RETURNS FLOAT DETERMINISTIC
 BEGIN
-    IF (b = 0) THEN
+    IF b = 0 THEN
         RETURN 0;
     ELSE
-        RETURN (a / b);
+        RETURN a / b;
     END IF;
 END $$
 
