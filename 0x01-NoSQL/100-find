@@ -1,0 +1,2 @@
+// this is a script that filter using regex
+db.school.find({"name": {$regex: /^Holberton/}})
