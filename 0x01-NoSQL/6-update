@@ -1,0 +1,6 @@
+// updating a document in a collection match some thing
+db.school.update(
+{name : "Holberton school"},
+{$set : {address : "972 Mission street"}},
+{multi: true},
+);
