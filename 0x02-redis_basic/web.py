@@ -1,40 +1,34 @@
 #!/usr/bin/env python3
-"""
-this get
-5. Implementing an expiring web cache and track
-"""
+""" expiring web cache module """
 
-
-from functools import wraps
 import redis
 import requests
 from typing import Callable
+from functools import wraps
 
-r = redis.Redis()
+redis = redis.Redis()
 
 
-def count_requests(method: Callable) -> Callable:
-    """ Decortator for counting how many times a requesthas been made """
+def wrap_requests(fn: Callable) -> Callable:
+    """ Decorator wrapper """
 
-    @wraps(method)
+    @wraps(fn)
     def wrapper(url):
-        """ Wrapper for decorator functionality """
-        r.incr(f"count:{url}")
-        cached_html = r.get(f"cached:{url}")
-        if cached_html:
-            return cached_html.decode('utf-8')
-
-        html = method(url)
-        r.setex(f"cached:{url}", 10, html)
-        return html
+        """ Wrapper for decorator guy """
+        redis.incr(f"count:{url}")
+        cached_response = redis.get(f"cached:{url}")
+        if cached_response:
+            return cached_response.decode('utf-8')
+        result = fn(url)
+        redis.setex(f"cached:{url}", 10, result)
+        return result
 
     return wrapper
 
 
-@count_requests
+@wrap_requests
 def get_page(url: str) -> str:
-    """Uses the requests module to obtain the HTML
-    content of a particular URL and returns it.
+    """get page self descriptive
     """
-    req = requests.get(url)
-    return req.text
+    response = requests.get(url)
+    return response.text
