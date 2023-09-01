@@ -49,7 +49,7 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(o, str(res))
         return res
 
-    return wrapp
+    return wrapper
 
 
 class Cache:
@@ -61,6 +61,7 @@ class Cache:
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Types) -> str:
         """
         this is a method to store into
