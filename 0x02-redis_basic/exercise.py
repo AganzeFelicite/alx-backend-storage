@@ -8,9 +8,27 @@ from uuid import uuid4
 import sys
 import redis
 from typing import Union, Optional, Callable
+from functools import wraps
 
 
 Types = Union[str, bytes, int, float]
+
+
+def count_calls(method: Callable) -> Callable:
+    """
+    my wrapper here
+    """
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        it increments the count
+        every time its called
+        """
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
 
 
 class Cache:
@@ -21,6 +39,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Types) -> str:
         """
         this is a method to store into
@@ -53,4 +72,4 @@ class Cache:
         this converts a byte back to
         integer
         """
-        return self.from_bytes(self, sys.byteorde)  
+        return self.from_bytes(self, sys.byteorde)
